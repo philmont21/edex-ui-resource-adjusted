@@ -23,15 +23,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Prebuild app sources (Windows)
-        run: npm run prebuild-windows
-
       - name: Build Windows package
         run: npm run build-windows
-
-      - name: Cleanup prebuild dir
-        if: always()
-        run: npm run postbuild-windows
 
       - name: Upload dist artifacts
         if: always()
