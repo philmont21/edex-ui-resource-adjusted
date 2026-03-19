@@ -132,6 +132,20 @@ const lastWindowStateFile = path.join(settingsDir, "lastWindowState.json");
 window.settings = require(settingsFile);
 window.shortcuts = require(shortcutsFile);
 window.lastWindowState = require(lastWindowStateFile);
+window.performanceSettings = Object.assign({
+    profile: "balanced",
+    terminalWebgl: false,
+    globeFps: 18,
+    cpuLoadIntervalMs: 1200,
+    cpuSpeedIntervalMs: 1800,
+    cpuTempIntervalMs: 3000,
+    cpuTasksIntervalMs: 7000,
+    netstatIntervalMs: 3000,
+    conninfoIntervalMs: 1600,
+    ramIntervalMs: 2200,
+    toplistIntervalMs: 3000,
+    siWorkerMax: 3
+}, window.settings.performance || {});
 
 // Load CLI parameters
 if (remote.process.argv.includes("--nointro")) {
@@ -926,7 +940,8 @@ window.writeSettingsFile = () => {
         hideDotfiles: (document.getElementById("settingsEditor-hideDotfiles").value === "true"),
         fsListView: (document.getElementById("settingsEditor-fsListView").value === "true"),
         experimentalGlobeFeatures: (document.getElementById("settingsEditor-experimentalGlobeFeatures").value === "true"),
-        experimentalFeatures: (document.getElementById("settingsEditor-experimentalFeatures").value === "true")
+        experimentalFeatures: (document.getElementById("settingsEditor-experimentalFeatures").value === "true"),
+        performance: window.performanceSettings
     };
 
     Object.keys(window.settings).forEach(key => {

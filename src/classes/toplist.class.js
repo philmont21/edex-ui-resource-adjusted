@@ -17,7 +17,7 @@ class Toplist {
         this.updateList();
         this.listUpdater = setInterval(() => {
             this.updateList();
-        }, 2000);
+        }, Number(window.performanceSettings.toplistIntervalMs || 3000));
     }
     updateList() {
         if (this.currentlyUpdating) return;

@@ -5,9 +5,23 @@ if (cluster.isMaster) {
     const ipc = electron.ipcMain;
     const signale = require("signale");
     // Also, leave a core available for the renderer process
-    const osCPUs = require("os").cpus().length - 1;
-    // See #904
-    const numCPUs = (osCPUs > 7) ? 7 : osCPUs;
+    const osCPUs = Math.max(1, require("os").cpus().length - 1);
+
+    let configuredWorkerMax = 3;
+    try {
+        const path = require("path");
+        const fs = require("fs");
+        const settingsPath = path.join(electron.app.getPath("userData"), "settings.json");
+        if (fs.existsSync(settingsPath)) {
+            const settings = JSON.parse(fs.readFileSync(settingsPath, "utf-8"));
+            configuredWorkerMax = Number(settings?.performance?.siWorkerMax || configuredWorkerMax);
+        }
+    } catch (e) {
+        // Keep defaults on parse/read errors
+    }
+
+    configuredWorkerMax = Math.min(Math.max(1, configuredWorkerMax), 7);
+    const numCPUs = Math.min(osCPUs, configuredWorkerMax);
 
     const si = require("systeminformation");
 

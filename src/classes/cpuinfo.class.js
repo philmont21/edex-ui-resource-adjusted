@@ -106,18 +106,18 @@ class Cpuinfo {
             this.updateCPUtasks();
             this.loadUpdater = setInterval(() => {
                 this.updateCPUload();
-            }, 500);
+            }, Number(window.performanceSettings.cpuLoadIntervalMs || 1200));
             if (process.platform !== "win32") {
                 this.tempUpdater = setInterval(() => {
                     this.updateCPUtemp();
-                }, 2000);
+                }, Number(window.performanceSettings.cpuTempIntervalMs || 3000));
             }
             this.speedUpdater = setInterval(() => {
                 this.updateCPUspeed();
-            }, 1000);
+            }, Number(window.performanceSettings.cpuSpeedIntervalMs || 1800));
             this.tasksUpdater = setInterval(() => {
                 this.updateCPUtasks();
-            }, 5000);
+            }, Number(window.performanceSettings.cpuTasksIntervalMs || 7000));
         });
     }
     updateCPUload() {

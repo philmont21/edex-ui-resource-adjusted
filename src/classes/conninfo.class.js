@@ -24,7 +24,7 @@ class Conninfo {
 
         // Set chart options
         let chartOptions = [{
-            limitFPS: 40,
+            limitFPS: 24,
             responsive: true,
             millisPerPixel: 70,
             interpolation: 'linear',
@@ -59,7 +59,7 @@ class Conninfo {
         this.updateInfo();
         this.infoUpdater = setInterval(() => {
             this.updateInfo();
-        }, 1000);
+        }, Number(window.performanceSettings.conninfoIntervalMs || 1600));
     }
     updateInfo() {
         let time = new Date().getTime();

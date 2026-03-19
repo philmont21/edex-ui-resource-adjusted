@@ -21,6 +21,7 @@ class LocationGlobe {
 
         this.lastgeo = {};
         this.conns = [];
+        this.renderFPS = Math.max(8, Number(window.performanceSettings.globeFps || 18));
 
 
         setTimeout(() => {
@@ -51,6 +52,19 @@ class LocationGlobe {
 
             // Init animations
             this._animate = () => {
+                if (document.hidden || !document.hasFocus()) {
+                    if (window.mods.globe._animate) {
+                        setTimeout(() => {
+                            try {
+                                requestAnimationFrame(window.mods.globe._animate);
+                            } catch(e) {
+                                console.warn(e);
+                            }
+                        }, 1000);
+                    }
+                    return;
+                }
+
                 if (window.mods.globe.globe) {
                     window.mods.globe.globe.tick();
                 }
@@ -62,7 +76,7 @@ class LocationGlobe {
                             // We probably got caught in a theme change. Print it out but everything should keep running fine.
                             console.warn(e);
                         }
-                    }, 1000 / 30);
+                    }, 1000 / window.mods.globe.renderFPS);
                 }
             };
             this.globe.init(window.theme.colors.light_black, () => {

@@ -7,7 +7,6 @@ class Terminal {
             const {AttachAddon} = require("@xterm/addon-attach");
             const {FitAddon} = require("@xterm/addon-fit");
             const {LigaturesAddon} = require("@xterm/addon-ligatures");
-            const {WebglAddon} = require("@xterm/addon-webgl");
             this.Ipc = require("electron").ipcRenderer;
 
             this.port = opts.port || 3000;
@@ -139,7 +138,14 @@ class Terminal {
             let fitAddon = new FitAddon();
             this.term.loadAddon(fitAddon);
             this.term.open(document.getElementById(opts.parentId));
-            this.term.loadAddon(new WebglAddon());
+            if (window.performanceSettings.terminalWebgl) {
+                try {
+                    const {WebglAddon} = require("@xterm/addon-webgl");
+                    this.term.loadAddon(new WebglAddon());
+                } catch (e) {
+                    console.warn("xterm webgl addon disabled (fallback to canvas):", e?.message || e);
+                }
+            }
             let ligaturesAddon = new LigaturesAddon();
             this.term.loadAddon(ligaturesAddon);
             this.term.attachCustomKeyEventHandler(e => {

@@ -33,7 +33,7 @@ class RAMwatcher {
         this.updateInfo();
         this.infoUpdater = setInterval(() => {
             this.updateInfo();
-        }, 1500);
+        }, Number(window.performanceSettings.ramIntervalMs || 2200));
     }
     updateInfo() {
         if (this.currentlyUpdating) return;

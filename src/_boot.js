@@ -122,7 +122,21 @@ if (!fs.existsSync(settingsFile)) {
         hideDotfiles: false,
         fsListView: false,
         experimentalGlobeFeatures: false,
-        experimentalFeatures: false
+        experimentalFeatures: false,
+        performance: {
+            profile: "balanced",
+            terminalWebgl: false,
+            globeFps: 18,
+            cpuLoadIntervalMs: 1200,
+            cpuSpeedIntervalMs: 1800,
+            cpuTempIntervalMs: 3000,
+            cpuTasksIntervalMs: 7000,
+            netstatIntervalMs: 3000,
+            conninfoIntervalMs: 1600,
+            ramIntervalMs: 2200,
+            toplistIntervalMs: 3000,
+            siWorkerMax: 3
+        }
     }, "", 4));
     signale.info(`Default settings written to ${settingsFile}`);
 }
