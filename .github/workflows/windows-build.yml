@@ -23,8 +23,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Windows package
-        run: npm run build-windows
+      - name: Build Windows package (no publish)
+        run: npm run build-windows -- --publish never
 
       - name: Upload dist artifacts
         if: always()
